@@ -52,3 +52,20 @@ yarn add -D supertest  @types/supertest
 ~~~
 
 no package.json, "test:functional": "jest --projects ./test --runInBand" onde runInBand serve para podermos fazer os teste em ordem e não em paralelo.
+
+### Início da construção da API
+
+Primeiramente vamos instalar as dependêcias que iremos usar nessa API. Aqui vamos usar o express, body-parser pois vamos precisamos especificar o formato do body (que será json) e o overnightjs que será de fato o framework que será utilizado no back-end, mais do que o express.
+
+~~~
+yarn add express body-parser @overnightjs/core
+yarn add -D @types/express
+~~~
+
+após isso, podemos criar a base do server no src/server.ts
+
+Uma coisa importante relacionada a criar tipos de outros tipos está nesse vídeo ![aqui](https://youtu.be/OJYsN4DcLQQ?t=1413). Isso é importante para fazer os testes da aplicação. Esse ![link](https://stackoverflow.com/questions/39040108/import-class-in-definition-file-d-ts/51114250#51114250) explica um pouco como funciona o arquivos do tipo **.d.ts**. Realmente é bom ver essa parte, ela é um diferencial.
+
+- Obs: mudei "@types/node": "^17.0.23" em package.json para "@types/node": "^14.0.0", pois estava dando problema em criar o tipo global.testResponse.
+
+Também coloquei npm install --dev ts-node pois estava com problemas em importar alguns módulos.
