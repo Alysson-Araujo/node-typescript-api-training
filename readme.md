@@ -69,3 +69,91 @@ Uma coisa importante relacionada a criar tipos de outros tipos está nesse víde
 - Obs: mudei "@types/node": "^17.0.23" em package.json para "@types/node": "^14.0.0", pois estava dando problema em criar o tipo global.testResponse.
 
 Também coloquei npm install --dev ts-node pois estava com problemas em importar alguns módulos.
+
+<br>
+<br>
+<br>
+
+## Prettier para organizar o código
+
+Para organizar os códigos do projeto, usamos o Prettier. Primeiro adicionamos ele como uma dependência de dev. e em seguida criamos um arquivo chamado .prettierrc onde irá conter os estilos do código que desejamos colocar. Comando para adicionar ele:
+
+```script
+yarn add -D prettier
+```
+
+Dicas: 
+-     "semi": true, refere a colocar ; no fim de cada linha
+-     "singleQuote": true, se refere a usar aspas simples 
+
+<br>
+
+Após isso, vamos adicionar um comando no package.json para a gente conseguir executar o prettier. Segue o comando abaixo:
+
+```json
+"style:check":"prettier --check 'src/**/*.ts' 'test/**/*.ts'"
+```
+
+Por fim, para executar o comando basta usar esse comando:
+
+~~~~
+yarn style:check
+~~~~
+
+Obs: Caso tenha algum erro, coloque o seguinte comando no package.json:
+
+```json
+"style:fix":"prettier --write 'src/**/*.ts' 'test/**/*.ts'"
+```
+
+
+#
+
+### Criando o API client para consumir a API externa de meteorologia
+
+Inicialmente, vamos fazer a configuração para executar testes unitários. Para isso vamos colocar o comando abaixo no package.json. Vamos apenas colocar o "jest" no valor, pois vamos ter as configurações globais que estão configurados no jest.config.js. 
+
+```json
+    "test:unit":"jest"
+```
+
+
+Vamos falar um pouco sobre a estrutura da API. 
+
+Vamos ter os controllers onde vão receber as requisições e delegar para alguma coisa. E nós vamos ter uma lógica específica para falar com os recursos internos (falar com BD são modulos) e externos (são clients).
+
+Vamos criar as pastas clients/__test__ dento do src. Ele servirá para colocar os testes que envolvem os clients e como temos o jest, que consegue localizar todos os testes presentes no projeto.
+
+**DICA:** Para que fique rodando os testes automaticamente, usamos o seguinte comando:
+```script
+    yarn test:unit --watch
+```
+
+<br>
+
+Para fazer um fatch em uma API externa, vamos precisar de uma biblioteca onde disponibilize uma de fazer requisição http. Nesse projeto, vamos usar o **Axios**. Vamos adicionar o Axios e seus tipos no projeto da seguinte forma:
+
+```script
+    yarn add axios && yarn add -D @types/axios
+``` 
+
+<br>
+
+Para ter uma compreensão melhor do sistema de testes comunicação com uma API externa, seria bom ler um pouco sobre o jest.mack('axios'). [link](https://jestjs.io/pt-BR/docs/mock-functions)
+
+além disso pesquisar também sobre o axios e seus métodos, e jest e seus métodos.
+
+<br>
+<br>
+
+### Normalização de dados
+
+[Link da parte explicando](https://youtu.be/x4Llr0DwOaA?t=703)
+
+É bom dar uma lida sobre [Partial](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype) do TS. 
+
+A parte de normalização vai ser feita por duas funções:
+- isValidPoint
+- normalizeResponse
+
+Elas estão em clients/StormGlass.ts
